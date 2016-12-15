@@ -1,11 +1,6 @@
 require 'spec_helper'
 
 describe User do
-<<<<<<< HEAD
-  pending "add some examples to (or delete) #{__FILE__}"
-end
-=======
-
   before { @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar") }
 
   subject { @user }
@@ -98,4 +93,3 @@ end
   	it { should be_valid }
   end
 end
->>>>>>> modeling-users
