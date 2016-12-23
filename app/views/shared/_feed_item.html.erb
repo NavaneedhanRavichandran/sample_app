@@ -9,8 +9,14 @@
   </span>
 
   <% if current_user?(feed_item.user) %>
-    <%= link_to "delete", feed_item, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: feed_item.content %>
+    <%= link_to "delete", feed_item, method: :delete, data: { confirm: "You sure?" }, title: feed_item.content %>
+  <% else %>
+    <strong id="votes">
+      <%= render partial: 'shared/feed_stats', locals: {feed_item: feed_item} %>
+    </strong>
+
+    <div id="feedform">
+      <%= render partial: 'shared/feed_form', locals: {user: current_user, feed_item: feed_item} %>
+    </div>
   <% end %>
 </li>

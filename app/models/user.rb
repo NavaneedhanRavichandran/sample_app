@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 	has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
 	has_many :followers, through: :reverse_relationships, source: :follower
 
+	has_many :reviews, foreign_key: "reviewer_id", dependent: :destroy
+	has_many :reviewed_user, through: :reviews, source: :post
+
 	before_save { self.email = email.downcase }
 	before_create :create_remember_token
 
@@ -42,6 +45,47 @@ class User < ActiveRecord::Base
 	def unfollow!(other_user)
 		relationships.find_by(followed_id: other_user.id).destroy
 	end
+
+	def upvoted?(micropost)
+		reviews.find_by(post_id: micropost.id, vote: 1)
+	end
+
+	def downvoted?(micropost)
+		reviews.find_by(post_id: micropost.id, vote: -1)
+	end
+
+	def upvote!(micropost)
+		#if self.upvoted?(micropost) || self.downvoted?(micropost)
+		#	reviews.find_by(post_id: micropost.id).destroy
+		#else
+		#	reviews.create!(post_id: micropost.id, vote: 1)
+		#end
+		#if !self.upvoted?(micropost)
+			#if self.downvoted?(micropost)
+			#	reviews.find_by(post_id: micropost.id).destroy
+			#end
+			reviews.create!(post_id: micropost.id, vote: 1)
+		#end
+	end
+
+	def downvote!(micropost)
+		#if self.upvoted?(micropost) || self.downvoted?(micropost)
+		#	reviews.find_by(post_id: micropost.id).destroy
+		#else
+		#	reviews.create!(post_id: micropost.id, vote: -1)
+		#end
+		#if !self.downvoted?(micropost)
+			#if self.upvoted?(micropost)
+			#	reviews.find_by(post_id: micropost.id).destroy
+			#end
+			reviews.create!(post_id: micropost.id, vote: -1)
+		#end
+	end
+
+	def reset_vote!(micropost)
+		reviews.find_by(post_id: micropost.id).destroy
+	end
+
 	
 	private
 		def create_remember_token

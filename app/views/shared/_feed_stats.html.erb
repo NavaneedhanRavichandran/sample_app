@@ -1,0 +1,4 @@
+<div class="stats">
+    <div>Up votes: <%= feed_item.votes.where("vote = 1").count %></div>
+	<div>Down votes: <%= feed_item.votes.where("vote = -1").count %></div>
+</div>

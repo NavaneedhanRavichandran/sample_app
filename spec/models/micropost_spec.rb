@@ -9,6 +9,10 @@ describe Micropost do
 	it { should respond_to(:content) }
 	it { should respond_to(:user_id) }
 	it { should respond_to(:user) }
+
+	it { should respond_to(:votes) }
+	it { should respond_to(:user_votes)}
+
 	its(:user) { should eq user }
 
 	it { should be_valid }

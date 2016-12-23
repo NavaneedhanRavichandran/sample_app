@@ -29,5 +29,21 @@ namespace :db do
     followers = users[3..40]
     followed_users.each { |followed| user.follow!(followed) }
     followers.each {|follower| follower.follow!(user) }
+
+    users = User.all
+    posts = Micropost.all
+
+    users.each do |user|
+      posts.each do |post|
+        if user.id != post.user_id
+          if post.id % 2 == 0
+            user.upvote!(post)
+          else
+            user.downvote!(post)
+          end
+        end
+      end
+    end
+
   end
 end

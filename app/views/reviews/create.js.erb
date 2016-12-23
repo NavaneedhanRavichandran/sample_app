@@ -1,0 +1,1 @@
+$("#<%= @micropost.id %>").html("<%= escape_javascript(render(partial: 'shared/feed_item', locals: {feed_item: @micropost})) %>")

@@ -1,0 +1,17 @@
+<% if feed_item.votes.where(reviewer_id: user.id).sum(:vote) != 0 %>
+	<% if feed_item.votes.where(reviewer_id: user.id).sum(:vote) == 1 %>
+		You have up voted this post
+	<% else %>
+		You have down voted this post
+	<% end %>
+	
+	<%= form_for(feed_item.votes.find_by(reviewer_id: user.id), html: { method: :delete }, remote: true) do |f| %>
+		<%= f.submit "Reset", class: "btn", name: "reset" %>
+	<% end %>
+<% else %>
+	<%= form_for(feed_item.votes.build(reviewer_id: user.id), remote: true) do |f| %>
+		<div><%= f.hidden_field :post_id %></div>
+		<%= f.submit "Like", class: "btn-success", name: "like" %>
+		<%= f.submit "Dislike", class: "btn-warning", name: "dislike" %>
+	<% end %>
+<% end %>
